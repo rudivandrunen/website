@@ -1,0 +1,157 @@
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Event",
+ "@id": "{{ .Permalink }}#event",
+ "url": "{{ .Permalink }}",
+ "name": "{{ .Title | default .Site.Params.textEmptyValue }}",
+ "startDate": {{ .Params.event_start }},
+ "endDate": {{ .Params.event_end }},
+ "about": ["automation","configuration management","DevOps","internet","Linux","open source","open standards","security","web"],
+ "audience": ["software developers", "network engineers", "system administrators"],
+ {{ if .Params.event_status }}
+ "eventStatus": "Event{{ .Params.event_status | strings.FirstUpper }}",
+ {{ else }}
+ "eventStatus": "EventScheduled",
+ {{ end }}
+ "organizer": [
+  {
+   "@type": "Organization",
+   "name": "NLUUG",
+   "id": "{{ .Site.BaseURL }}#organization",
+   "url": "{{ .Site.BaseURL }}"
+  }
+ ],
+ "eventAttendanceMode": "https://schema.org/{{ if eq .Params.event_attendance_mode "hybrid" }}Mixed{{ else if eq .Params.event_attendance_mode "mixed" }}Mixed{{ else if eq .Params.event_attendance_mode "online" }}Online{{ else }}Offline{{ end }}EventAttendanceMode",
+ "isAccessibleForFree": true,
+ "offers": [
+  {
+   "@type": "Offer",
+   "name": "Free access for members",
+   "price": "0",
+   "priceCurrency": "EUR"
+  }],
+ "inLanguage": ["en", "nl"],
+ {{ if .Params.event_description }}"description": "{{ .Params.event_description }}",{{ end }}
+{{ if .Params.online_event }}
+ "location": {
+  "@type": "VirtualLocation",
+  "url": "{{ .Params.online_event_stream_url }}"
+ },
+{{ else }}
+ "location": {
+  "@type": "Place",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "{{ .Params.event_address.city }}",
+   {{ if .Params.event_address.region }}"addressRegion": "{{ .Params.event_address.region }}",{{ end }}
+   "streetAddress": "{{ .Params.event_address.street_address }}",
+   "postalCode": "{{ .Params.event_address.postal_code }}",
+   "addressCountry": {{ .Params.event_address.country_name }}
+  },
+  "name": "{{ .Params.event_location }}"
+ },
+{{ end }}
+ "performer": [
+ {
+  "@type": "Organization",
+  "name": "NLUUG",
+   "id": "{{ .Site.BaseURL }}#organization",
+   "url": "{{ .Site.BaseURL }}"
+ }
+ ],
+{{ with .Params.event_images -}}
+  "image": [
+    {{- range $index, $element := . -}}
+    {{- if ne $index 0 -}}, {{ end }}
+    {{ $image := resources.Get $element -}}
+    {{ $image.Permalink -}}
+    {{- end }}
+    ],
+{{ else }}
+{{- $featured := partial "opengraph/get-featured-image.html" . }}
+ "image": "{{ $featured.Permalink }}",
+{{ end -}}
+ {{ $list := where .Pages "Params.speakers" "!=" nil }}
+ {{ if gt (len $list) 0 }}"subEvent": [{{ end }}
+ {{ range $key, $value := $list }}
+ {{- if ne $key 0 -}}, {{ end }}
+ {
+ "@type": "Event",
+ "name": "{{ $value.Title }}",
+ "url": "{{ $value.Permalink }}",
+ "description": "{{ (delimit (findRE "(?s)(<p.*?>.*?</p>)" .Content) "[&hellip;] ") | plainify | truncate 500 }}",
+ "eventAttendanceMode": "https://schema.org/{{ if eq $.Params.event_attendance_mode "hybrid" }}Mixed{{ else if eq $.Params.event_attendance_mode "mixed" }}Mixed{{ else if eq $.Params.event_attendance_mode "online" }}Online{{ else }}Offline{{ end }}EventAttendanceMode",
+ "eventStatus": "EventScheduled",
+{{- $featured := partial "opengraph/get-featured-image.html" . }}
+ "image": "{{ $featured.Permalink }}",
+{{ if $.Params.online_event }}
+ "location": {
+  "@type": "VirtualLocation",
+  "url": "{{ $.Params.online_event_stream_url }}"
+ },
+{{ else }}
+ "location": {
+  "@type": "Place",
+  "address": {
+   "@type": "PostalAddress",
+   "addressLocality": "{{ $.Params.event_address.city }}",
+   {{ if $.Params.event_address.region }}"addressRegion": "{{ $.Params.event_address.region }}",{{ end }}
+   "streetAddress": "{{ $.Params.event_address.street_address }}",
+   "postalCode": "{{ $.Params.event_address.postal_code }}",
+   "addressCountry": {{ $.Params.event_address.country_name }}
+  },
+  "name": "{{ $.Params.event_location }}"
+ },
+{{ end }}
+ "organizer": [
+  {
+   "@type": "Organization",
+   "name": "NLUUG",
+   "id": "{{ .Site.BaseURL }}#organization",
+   "url": "{{ .Site.BaseURL }}"
+  }
+ ],
+ "startDate": {{ $.Params.event_start | time.Format "2006-01-02" }},
+ "endDate": {{ $.Params.event_end | time.Format "2006-01-02" }},
+ "offers": [
+  {
+   "@type": "Offer",
+   "name": "Free access for members attending the conference",
+   "price": "0",
+   "priceCurrency": "EUR"
+  }],
+ "performer": [
+    {{- range $index, $element := $value.Params.speakers -}}
+    {{- if ne $index 0 -}}, {{ end }}
+    {
+    "@type": "Person",
+    {{ $speaker := index $.Site.Data.personen ($element) }}
+    {{ if not $speaker.name }}{{ errorf "Empty speaker name. File /data/personen/%s.json should be created or name field filled in." ($element) }}{{ end }}
+    "name": "{{ $speaker.name }}"
+    {{ if $speaker.profile_page }},"url":"{{ $speaker.profile_page | absURL }}"{{ end }}
+    }
+    {{- end }}
+    ]
+ }
+{{ end }}
+{{ if gt (len $list) 0 }}],{{ end }}
+ "mainEntityOfPage": {
+  "@type": "Webpage",
+  "@id": "{{ .Permalink }}#webpage",
+  "url": "{{ .Permalink }}",
+  "name": "{{ .Title }}",
+  "speakable": {
+   "@type": "SpeakableSpecification",
+   "cssSelector": ".speakable"
+  },
+  "isPartOf": {
+   "@type": "WebSite",
+   "@id": "{{ .Site.BaseURL }}#website",
+   "url": "{{ .Site.BaseURL }}",
+   "name": "{{ .Site.Title | default .Site.Params.textNoTitle }}"
+  }
+ }
+
+}
+</script>
