@@ -6,8 +6,8 @@
     <description>{{ .Site.Params.description }}</description>
     <link>{{ absURL "" }}</link>
     <language>{{ $language | default "en" }}</language>
-    <copyright>Copyright {{ now.Format "2006"}}, {{ $author }}</copyright>
-    <lastBuildDate>{{ .Site.LastChange.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    <copyright>Copyright {{ now.Format "2006"}}, {{ .Site.Title }}</copyright>
+    <lastBuildDate>{{ .Site.Lastmod.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
     {{ with .Site.Params.webmaster }}
       <webMaster>{{ . }}</webMaster>
     {{ end }}
@@ -17,12 +17,12 @@
     <item>
       <title>{{ .Title }}</title>
       <link>{{ .Permalink }}</link>
-      <description>{{ .Content | plainify }}</description>
+      <description>{{ .Content | html }}</description>
       {{- if .Params.Author -}}
       {{- $author := index .Site.Data.authors .Params.author -}}
-      <author>{{ $author.email }} ({{ $author.name }})</author>
+      <author>{{ $author.email | default "website@nluug.nl" }} ({{ $author.name }})</author>
       {{- else -}}
-      <author>website@nluug.nl (NLUUG)</author>
+      <author>website@nluug.nl (NLUUG webmasters)</author>
       {{- end -}}
       <guid>{{ .Permalink }}</guid>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>

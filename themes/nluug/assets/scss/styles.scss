@@ -4,14 +4,16 @@
 }
 
 body {
-    font: 1rem/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,Roboto,noto,"Helvetica Neue",helvetica,arial,sans-serif;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    padding: 1.2rem;
+    //font: 1rem/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,Roboto,noto,"Helvetica Neue",helvetica,arial,sans-serif;
+    //text-rendering: optimizeLegibility;
+    //-webkit-font-smoothing: antialiased;
+    //-moz-osx-font-smoothing: grayscale;
+    padding: 1.0rem;
     // background: hsla(93, 0%, 96%, 1.00);
-    color: #2E2E2E;
-    max-width: 1024px;
+    //color: #2E2E2E;
+    //color: #222226;
+    color: #333333;
+    max-width: 1180px;
     margin: 0 auto;
 }
 
@@ -31,15 +33,18 @@ body {
 }
 
 figure {
-  margin-inline-start: 10px;
-  margin-inline-end: 10px;
+  //margin-inline-start: 10px;
+  //margin-inline-end: 10px;
+  margin: 10px;
 }
 
 footer {
-  background-color: #E3E9F7;
-  border-top: 1px solid #99AFE2;
-  margin-top: 40px;
-  padding: 20px;
+    //background-color: #E3E9F7;
+    background-color: $color-footer-background;
+    color: $color-footer-text;
+    border-top: 1px solid #99AFE2;
+    margin-top: 40px;
+    padding: 20px;
 }
 
 .grid-team-members {
@@ -67,63 +72,21 @@ h4, h5, strong, b {
     font-size: inherit;
     font-weight: 600;
 }
-// Highlight-box om bijvoorbeeld onze evenementen opvallend op homepage te laten zien
-.highlight-box {
-  border-radius: 4px;
-  margin: 2px;
-  padding: 20px;
+
+.persian-green-dark {
+  color: $persian-green-dark;
 }
 
-// Events voor alleen NLUUG-leden krijgen een andere kleur dan events in samenwerking met of die extra aandacht nodig hebben.
-.highlight-box-nluug {
-  background-color: $color-highlight-box-nluug-background;
-  border: 1px solid $color-highlight-box-nluug-border;
-}
-.highlight-box-other {
-  background-color: $color-highlight-box-other-background;
-  border: 1px solid $color-highlight-box-other-border;
+.darkred {
+  color: darkred;
 }
 
-
-.link {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-decoration: none;
-}
-
-a.button:link, a.button:visited {
-  background-color: $color-button;
-  border-radius: 4px;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-
-a.button:hover, a.button:active {
-  background-color: $color-button-hover;
-}
-
-// Button
-.btn:link, .btn:visited {
-  border-radius: 4px;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
-
-// Button voor call-to-action, <a href="#" class="btn btn-cta">#</a>
-.btn-cta:link, .btn-cta:visited {
-  background-color: $color-button-call-to-action;
-}
-.btn-cta:hover, .btn-cta:active {
-  background-color: $color-button-call-to-action-hover;
+.deceased::after {
+    content: "†";
+    font-size: 0.8em;
+    font-weight: normal;
+    margin-left: 2px;
+    vertical-align: text-top;
 }
 
 .time {
@@ -132,16 +95,6 @@ a.button:hover, a.button:active {
 }
 
 
-a,
-a:visited {
-    color: inherit;
-}
-
-a:hover,
-a.heading-link {
-    color: inherit;
-    text-decoration: underline;
-}
 
 blockquote {
     border-left: 5px solid #eee;
@@ -252,13 +205,13 @@ ul, ol {
     border-radius: 2px;
     color: $color-tags-text;
     display: inline;
-    padding: 3px 8px;
+    padding: 4px 10px;
+    margin-right: 2px;
 }
 
 .tags li a {
   font-size: 0.8em;
-    text-decoration: none;
-
+  text-decoration: none;
 }
 
 /* Kolommen voor de footer */
@@ -288,48 +241,3 @@ ul, ol {
 .w-40 { width: 40%; }
 .w-50 { width: 50%; }
 
-
-/*
-
-.table-wrapper{
-    margin: 10px 10px 30px;
-    box-shadow: 0px 10px 20px rgba( 0, 0, 0, 0.2 );
-    overflow-x:auto;
-}
-
-.fl-table {
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: normal;
-    border: none;
-    border-collapse: collapse;
-    width: 100%;
-    max-width: 100%;
-    background-color: white;
-}
-
-.fl-table td, .fl-table th {
-    text-align: left;
-    padding: 8px;
-    vertical-align: top;
-}
-
-.fl-table td {
-    border-right: 1px solid #f8f8f8;
-    font-size: 14px;
-}
-
-.fl-table thead th {
-    color: #ffffff;
-    background: #324960;
-}
-
-.fl-table thead th:nth-child(odd) {
-    color: #ffffff;
-    background: #324960;
-}
-
-.fl-table tr:nth-child(even) {
-    background: #F8F8F8;
-}
-*/
